@@ -11,7 +11,7 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_pass}@cluster0.u69fsfj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -30,8 +30,22 @@ async function run() {
 
     const courseCollections = client.db('educationDB').collection('course_collections');
 
+
+    // ! service related api
     app.get("/services", async(req, res) => {
-        const result = await courseCollections.find().toArray();
+        let query = {};
+        if(req.query?.email){
+            query={email: req.query.email}
+        }
+        const result = await courseCollections.find(query).toArray();
+        res.send(result);
+    })
+
+    //! single service by id
+    app.get("/services/:id", async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await courseCollections.findOne(query);
         res.send(result);
     })
 
