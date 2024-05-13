@@ -35,8 +35,9 @@ async function run() {
     app.get("/services", async(req, res) => {
         let query = {};
         if(req.query?.email){
-            query={email: req.query.email}
+            query={instructor_email: req.query.email}
         }
+        
         const result = await courseCollections.find(query).toArray();
         res.send(result);
     })
@@ -48,6 +49,60 @@ async function run() {
         const result = await courseCollections.findOne(query);
         res.send(result);
     })
+
+    // ! get service data by email
+    // app.get("/my_services", async(req, res) => {
+  
+    //  let query = {};
+    //  if(req.query?.email){
+    //   query = {
+    //     instructor_email: req.query.email}
+    //  }
+    //  const result = await courseCollections.find(query).toArray();
+    //  res.send(result);
+
+    // })
+
+    // ! post service route
+    app.post("/services", async(req, res) => {
+      const item = req.body;
+      const result = await courseCollections.insertOne(item);
+      res.send(result)
+    })
+
+    // ! update service info
+    app.put("/services/:id", async(req, res) => {
+      const id = req.params.id;
+      const item = req.body;
+      const query = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          name: item.name,
+          service_area: item.service_area,
+          price: item.price,
+          image: item.image,
+          description: item.description
+        },
+      };
+
+      const result = await courseCollections.updateOne(query, updateDoc, options)
+      res.send(result);
+      
+    })
+
+    // ! delete service
+    app.delete("/services/:id", async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await courseCollections.deleteOne(query);
+      res.send(result);
+    })
+
+
+
+
+
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
