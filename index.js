@@ -31,6 +31,12 @@ async function run() {
         const bookingCollections = client
             .db("educationDB")
             .collection("booking_collections");
+        const reviewCollections = client
+            .db("educationDB")
+            .collection("review_collections");
+        const teacherCollections = client
+            .db("educationDB")
+            .collection("teacher_collections");
 
         // ! service related api
         app.get("/services", async (req, res) => {
@@ -121,6 +127,19 @@ async function run() {
           const result = await bookingCollections.updateOne(query, updateDoc);
           res.send(result)
         })
+
+
+        //! Review collections
+        app.get("/reviews", async (req, res) => {
+            const result = await reviewCollections.find().toArray();
+            res.send(result);
+        });
+
+        //! teacher collections
+        app.get("/teachers", async (req, res) => {
+            const result = await teacherCollections.find().toArray();
+            res.send(result);
+        });
 
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
