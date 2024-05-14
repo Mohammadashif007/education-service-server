@@ -118,7 +118,6 @@ async function run() {
           const id = req.params.id;
           const query = {_id: new ObjectId(id)};
           const updatedBooking = req.body;
-          console.log(updatedBooking);
           const updateDoc = {
             $set: {
               status : updatedBooking.status
