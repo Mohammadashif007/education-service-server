@@ -127,13 +127,12 @@ async function run() {
             res.send(result);
         });
 
-        app.delete("/bookings/:id", async(req, res) => {
-            const id = req.params.id;
-            console.log(id);
-            const query = {_id: new ObjectId(id)};
-            const result = await bookingCollections.deleteOne(query);
-            res.send(result);
-        })
+        // app.delete("/bookings/:id", async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: new ObjectId(id)};
+        //     const result = await bookingCollections.deleteOne(query);
+        //     res.send(result);
+        // })
 
         //! Review collections
         app.get("/reviews", async (req, res) => {
