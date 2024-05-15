@@ -5,7 +5,14 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 // ! middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+      "http://localhost:5173",
+      "https://education-org.web.app",
+      "https://education-org.firebaseapp.com",
+    ],
+    credentials: true,
+  }));
 app.use(express.json());
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
