@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
         const courseCollections = client
             .db("educationDB")
@@ -150,7 +150,7 @@ async function run() {
         // await client.close();
     }
 }
-run().catch(console.dir);
+// run().catch(console.dir);
 
 app.get("/", (req, res) => {
     res.send("server is open");
